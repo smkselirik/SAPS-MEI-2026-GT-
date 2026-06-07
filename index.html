@@ -3,438 +3,862 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Peperiksaan Penggal 1 (MEI) 2026</title>
+    <title>Portal Peperiksaan Penggal 1 (MEI) 2026 | SMK SELIRIK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --night-blue: #151B54;
-            --soft-blue-1: #e0eafc;
-            --soft-blue-2: #cfdef3;
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, var(--soft-blue-1), var(--soft-blue-2));
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #93c5fd 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
-        header {
-            background-color: var(--night-blue);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 2px, transparent 2px, transparent 4px);
+        .night-blue-bg {
+            background-color: #151B54 !important;
+        }
+        /* Elegant Abstract Corporate Pattern Overlay */
+        .corporate-header {
+            background: linear-gradient(135deg, #151B54 0%, #0f143d 100%);
             position: relative;
-        }
-        header img {
-            height: 80px;
-            margin-bottom: 10px;
-        }
-        header h1 {
-            margin: 5px 0;
-            font-size: 24px;
-        }
-        header h2 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 300;
-        }
-        .container {
-            flex: 1;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        footer {
-            background-color: var(--night-blue);
-            color: white;
-            text-align: center;
-            padding: 15px;
-            font-size: 14px;
-        }
-        .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .login-container {
-            max-width: 400px;
-            margin: 50px auto;
-            text-align: center;
-        }
-        input[type="text"], input[type="password"], select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: var(--night-blue);
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        button:hover {
-            opacity: 0.9;
-        }
-        .dashboard { display: none; }
-        
-        /* Table Styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th { background-color: var(--night-blue); color: white; }
-        
-        .student-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
             overflow: hidden;
-            border: 1px solid #eee;
         }
-        .student-header {
-            background: #f8f9fa;
-            padding: 15px;
-            border-bottom: 2px solid var(--night-blue);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .corporate-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            transform: rotate(15deg);
+            pointer-events: none;
         }
-        .slip-header-img {
+        .corporate-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(21, 27, 84, 0.08);
+        }
+        /* Custom Table Styling */
+        .custom-table {
             width: 100%;
-            display: block;
+            border-collapse: separate;
+            border-spacing: 0;
         }
-        
-        .print-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+        .custom-table th {
+            background-color: #151B54;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 12px 8px;
+            border-bottom: 2px solid #0f143d;
         }
-        .print-buttons button { width: auto; flex: 1; min-width: 200px; }
-        
-        .signatures {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-            padding: 0 20px 20px;
+        .custom-table th:first-child {
+            border-top-left-radius: 8px;
         }
-        .sig-block {
-            text-align: center;
-            width: 40%;
+        .custom-table th:last-child {
+            border-top-right-radius: 8px;
         }
-        .sig-line {
-            border-top: 1px solid black;
-            margin-top: 50px;
-            padding-top: 5px;
-            font-weight: bold;
+        .custom-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #1e293b;
+            font-size: 0.825rem;
         }
-
-        /* Print Styles */
+        .custom-table tr:last-child td:first-child {
+            border-bottom-left-radius: 8px;
+        }
+        .custom-table tr:last-child td:last-child {
+            border-bottom-right-radius: 8px;
+        }
+        .custom-table tr:hover td {
+            background-color: #f1f5f9;
+        }
+        /* Print Utilities */
         @media print {
-            body { background: white !important; }
-            header, footer, .print-buttons, #class-selector-card { display: none !important; }
-            .container { padding: 0; max-width: none; }
-            .card { box-shadow: none; border: none; padding: 0; margin: 0; }
-            
-            body.print-overview @page { size: landscape; margin: 10mm; }
-            body.print-overview .student-card { display: none !important; }
-            body.print-overview #overview-card { display: block !important; }
-            
-            body.print-individual @page { size: portrait; margin: 10mm; }
-            body.print-individual #overview-card { display: none !important; }
-            body.print-individual .student-card { 
-                page-break-after: always; 
-                box-shadow: none; 
-                border: none; 
-                margin-bottom: 0;
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body {
+                background: white !important;
+                background-image: none !important;
             }
+            .page-break {
+                page-break-after: always;
+                break-after: page;
+            }
+            .landscape-print {
+                width: 100%;
+                max-width: 100%;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+            @page :left { margin: 10mm; }
+            @page :right { margin: 10mm; }
         }
-        
-        #loading { display: none; text-align: center; padding: 20px; font-weight: bold; }
+        .landscape-section @page {
+            size: A4 landscape;
+            margin: 8mm;
+        }
     </style>
 </head>
-<body>
+<body class="flex flex-col min-height-screen">
 
-<header>
-    <img src="https://i.ibb.co/VYSKMXf1/Logo-Selirik.png" alt="Logo SMK Selirik">
-    <h1>SMK SELIRIK, KAPIT</h1>
-    <h2>Portal Peperiksaan Penggal 1 (MEI) Tahun 2026</h2>
-</header>
+    <header class="corporate-header no-print text-white py-8 px-4 text-center shadow-lg">
+        <div class="max-w-4xl mx-auto flex flex-col items-center justify-center">
+            <img src="https://i.ibb.co/VYSKMXf1/Logo-Selirik.png" alt="Logo SMK Selirik" class="w-20 h-auto mb-3 drop-shadow-md">
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-wide uppercase">SMK Selirik, Kapit</h1>
+            <p class="text-sm md:text-base font-medium text-blue-200 mt-1 tracking-wider">Portal Peperiksaan Penggal 1 (MEI) 2026</p>
+        </div>
+    </header>
 
-<div class="container">
-    <!-- Login Section -->
-    <div id="login-section" class="card login-container">
-        <h3>Log Masuk Guru Kelas</h3>
-        <input type="text" id="userid" placeholder="ID Pengguna" value="GT2026">
-        <input type="password" id="password" placeholder="Kata Laluan">
-        <button onclick="login()">Log Masuk</button>
-        <p id="login-error" style="color:red; display:none;">ID atau Kata Laluan salah!</p>
-    </div>
-
-    <div id="loading">Memuat turun data peperiksaan... Sila tunggu...</div>
-
-    <!-- Dashboard Section -->
-    <div id="dashboard-section" class="dashboard">
-        <div class="card" id="class-selector-card">
-            <h3>Pilih Kelas Anda</h3>
-            <select id="class-select" onchange="loadClassData()">
-                <option value="">-- Pilih Kelas --</option>
-            </select>
-            
-            <div class="print-buttons" style="display:none;" id="print-controls">
-                <button onclick="printOverview()">Cetak Keseluruhan Kelas</button>
-                <button onclick="printSlips()">Cetak Pukal Slip</button>
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
+        
+        <div id="loginCard" class="glass-card max-w-md mx-auto rounded-2xl p-6 md:p-8 mt-12 no-print transition-all duration-300 transform hover:scale-[1.01]">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-100 text-[#151B54] mb-3">
+                    <i class="fa-solid fa-user-shield text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-gray-800">Log Masuk Guru Kelas</h2>
+                <p class="text-xs text-gray-500 mt-1">Sila masukkan ID Pengguna dan Kata Laluan Peperiksaan</p>
             </div>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">ID Pengguna</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fa-solid fa-id-card text-sm"></i>
+                        </span>
+                        <input type="text" id="username" required 
+                            class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-all"
+                            placeholder="Contoh: GT2026">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Kata Laluan</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fa-solid fa-lock text-sm"></i>
+                        </span>
+                        <input type="password" id="password" required 
+                            class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-all"
+                            placeholder="••••••••">
+                    </div>
+                </div>
+                <div id="loginErrorMessage" class="hidden text-xs text-red-600 font-medium flex items-center gap-1 bg-red-50 p-2.5 rounded-lg border border-red-200">
+                    <i class="fa-solid fa-circle-exclamation"></i> ID atau Kata Laluan adalah salah! Sila cuba lagi.
+                </div>
+                <button type="submit" 
+                    class="w-full py-2.5 bg-[#151B54] hover:bg-[#1a236d] text-white font-semibold rounded-xl shadow-md transition-all duration-200 text-sm tracking-wide">
+                    Log Masuk <i class="fa-solid fa-arrow-right-to-bracket ml-1"></i>
+                </button>
+            </form>
         </div>
 
-        <div id="overview-card" class="card" style="display:none;">
-            <h3 style="text-align:center;">Rekod Keputusan Keseluruhan Kelas</h3>
-            <div id="overview-table-container" style="overflow-x: auto;"></div>
+        <div id="dashboardContainer" class="hidden no-print space-y-6">
+            
+            <div class="glass-card rounded-2xl p-5 flex flex-wrap gap-4 items-center justify-between shadow-sm">
+                <div class="flex flex-wrap items-center gap-4 w-full md:w-auto">
+                    <div class="w-full sm:w-48">
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Tingkatan</label>
+                        <select id="tingkatanSelect" onchange="onTingkatanChange()" 
+                            class="w-full px-3 py-2 bg-white border border-gray-300 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 font-medium text-gray-800 shadow-sm">
+                            <option value="">-- Pilih Tingkatan --</option>
+                            <option value="T1">Tingkatan 1</option>
+                            <option value="T2">Tingkatan 2</option>
+                            <option value="T3">Tingkatan 3</option>
+                            <option value="T4">Tingkatan 4</option>
+                            <option value="T5">Tingkatan 5</option>
+                        </select>
+                    </div>
+                    <div class="w-full sm:w-48">
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Kelas</label>
+                        <select id="kelasSelect" disabled onchange="onKelasChange()"
+                            class="w-full px-3 py-2 bg-white border border-gray-300 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 font-medium text-gray-800 shadow-sm disabled:opacity-50">
+                            <option value="">-- Pilih Kelas --</option>
+                        </select>
+                    </div>
+                    <div id="loadingIndicator" class="hidden flex items-center gap-2 text-sm font-semibold text-blue-800 mt-4 sm:mt-0">
+                        <i class="fa-solid fa-spinner fa-spin text-lg"></i> Memuatkan data...
+                    </div>
+                </div>
+                
+                <div id="classActions" class="hidden flex flex-wrap gap-2 w-full md:w-auto justify-end">
+                    <button onclick="printClassRecord()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-table-list"></i> Cetak Rekod Keseluruhan
+                    </button>
+                    <button onclick="printBulkSlips()" class="px-4 py-2 bg-[#151B54] hover:bg-[#1a236d] text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-copy"></i> Cetak Slip Pukal
+                    </button>
+                </div>
+            </div>
+
+            <div id="emptyState" class="glass-card rounded-2xl p-12 text-center text-gray-500">
+                <i class="fa-solid fa-folder-open text-5xl text-gray-300 mb-3"></i>
+                <h3 class="text-lg font-bold text-gray-700">Selamat Datang ke Dashboard Guru Kelas</h3>
+                <p class="text-sm max-w-md mx-auto mt-1">Sila pilih Tingkatan dan Kelas di bahagian atas untuk memaparkan senarai keputusan pelajar, prestasi subjek, dan menjana slip keputusan.</p>
+            </div>
+
+            <div id="classStatsArea" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-[#151B54] flex items-center justify-center text-xl shadow-inner">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Jumlah Pelajar</p>
+                        <p id="statTotalStudents" class="text-xl font-black text-gray-800">-</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl shadow-inner">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Gred Purata Kelas (GPK)</p>
+                        <p id="statClassGP" class="text-xl font-black text-gray-800">-</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl shadow-inner">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Terbaik Kelas</p>
+                        <p id="statBestStudent" class="text-sm font-bold text-gray-800 truncate max-w-[160px]">-</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-4 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl shadow-inner">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Guru Tingkatan</p>
+                        <p id="statFormTeacher" class="text-xs font-bold text-gray-800 truncate max-w-[160px]">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="subjectAnalysisCard" class="hidden glass-card rounded-2xl p-5 shadow-sm">
+                <div class="flex items-center gap-2 mb-4 border-b pb-2">
+                    <i class="fa-solid fa-chart-pie text-lg text-[#151B54]"></i>
+                    <h3 class="font-bold text-gray-800 text-sm uppercase tracking-wide">Analisis Pencapaian Mata Pelajaran</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-center text-xs">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-bold border-b">
+                                <th class="p-2 text-left">KOD SUBJEK</th>
+                                <th class="p-2">BIL AMBIL</th>
+                                <th class="p-2">BIL LULUS / %</th>
+                                <th class="p-2">BIL GAGAL / %</th>
+                                <th class="p-2">GP SUBJEK</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjectAnalysisBody" class="divide-y divide-gray-200">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="mainTableCard" class="hidden glass-card rounded-2xl p-5 shadow-sm overflow-hidden">
+                <div class="flex items-center justify-between mb-4 flex-wrap gap-2 border-b pb-2">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-lg text-[#151B54]"></i>
+                        <h3 id="mainTableHeading" class="font-bold text-gray-800 text-sm uppercase tracking-wide">Rekod Keputusan Pelajar</h3>
+                    </div>
+                    <div class="text-xs font-medium text-gray-500">
+                        *Klik ikon <i class="fa-solid fa-print text-blue-600"></i> pada hujung baris untuk mencetak slip individu.
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto rounded-xl border border-gray-200">
+                    <table id="portalMainTable" class="custom-table">
+                        <thead>
+                            <tr id="portalTableHeader">
+                                </tr>
+                        </thead>
+                        <tbody id="portalTableBody" class="divide-y divide-gray-200 bg-white">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
+    </main>
 
-        <div id="students-container"></div>
-    </div>
-</div>
+    <div id="printContainer" class="print-only hidden"></div>
 
-<footer>
-    &copy; Hakcipta NDJE@Selirik, Kapit 2026
-</footer>
+    <footer class="no-print text-center py-6 text-xs text-gray-600 font-medium border-t mt-12 bg-white/60 backdrop-blur-sm">
+        Hakcipta NDJE@Selirik, Kapit 2026
+    </footer>
 
-<script>
-    const urls = [
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vR_cVUYiV59wBBM78IF0OeqL90DIeQXksU-sqQRnMF0Ou6_AFUSmyrf4mIvtZw5M2ROix6tooZwBp2m/pub?gid=1419213935&single=true&output=csv", // T1
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vT52bai_YQO69Xj44RZ774cYQxkcAVSI32loOIrmSxl94gWaQA3zmuhjM24cvGQP4tin618SFxlhGmG/pub?gid=1419213935&single=true&output=csv", // T2
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQLkEtjpu5SZcccaXkOlDMHHIsfPhIVNh4zlZmJgyRe93ND0Qk07YpzmE8GHuNzALyX7J1Rj2ye1NO5/pub?gid=1419213935&single=true&output=csv", // T3
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQNF2kkoq_gq_9UFRWFWLosn8lQtbDf6bcP_zeSyEYwB_sQLSFGVZUdPRSq-ff6Nbx6Fgo3KbqM1MNW/pub?gid=1615224868&single=true&output=csv", // T4
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQhqsBRMjA8LPYWT1V301p2vYO-8tVEbv1RSkSOyixoS-48cQpfUZTozkHqJgBSjUfBUIE7SgUMc2-K/pub?gid=1615224868&single=true&output=csv"  // T5
-    ];
+    <script>
+        // Data stream urls
+        const CSV_ENDPOINTS = {
+            T1: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_cVUYiV59wBBM78IF0OeqL90DIeQXksU-sqQRnMF0Ou6_AFUSmyrf4mIvtZw5M2ROix6tooZwBp2m/pub?gid=1419213935&single=true&output=csv',
+            T2: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT52bai_YQO69Xj44RZ774cYQxkcAVSI32loOIrmSxl94gWaQA3zmuhjM24cvGQP4tin618SFxlhGmG/pub?gid=1419213935&single=true&output=csv',
+            T3: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQLkEtjpu5SZcccaXkOlDMHHIsfPhIVNh4zlZmJgyRe93ND0Qk07YpzmE8GHuNzALyX7J1Rj2ye1NO5/pub?gid=1419213935&single=true&output=csv',
+            T4: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNF2kkoq_gq_9UFRWFWLosn8lQtbDf6bcP_zeSyEYwB_sQLSFGVZUdPRSq-ff6Nbx6Fgo3KbqM1MNW/pub?gid=1615224868&single=true&output=csv',
+            T5: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhqsBRMjA8LPYWT1V301p2vYO-8tVEbv1RSkSOyixoS-48cQpfUZTozkHqJgBSjUfBUIE7SgUMc2-K/pub?gid=1615224868&single=true&output=csv'
+        };
 
-    let allData = [];
-    let classesList = new Set();
-    
-    // Column Mappings
-    const mapUpper = {
-        subjects: [
-            { name: "BAHASA MELAYU", abbr: "BM", m: 4, g: 5 },
-            { name: "SEJARAH", abbr: "SEJ", m: 6, g: 7 },
-            { name: "ENGLISH LANGUAGE", abbr: "ENG", m: 8, g: 9 },
-            { name: "MATEMATIK/MATHEMATICS", abbr: "MATHS", m: 10, g: 11 },
-            { name: "PENDIDIKAN MORAL", abbr: "PM", m: 12, g: 13 },
-            { name: "PENDIDIKAN ISLAM", abbr: "PI", m: 14, g: 15 },
-            { name: "SAINS", abbr: "SN", m: 16, g: 17 },
-            { name: "PENDIDIKAN SENI VISUAL", abbr: "PSV", m: 18, g: 19 },
-            { name: "BAHASA IBAN", abbr: "BIB", m: 20, g: 21 },
-            { name: "REKA CIPTA", abbr: "RC", m: 22, g: 23 },
-            { name: "PENGAJIAN PENIAGAAN", abbr: "PP", m: 24, g: 25 },
-            { name: "PHYSICS", abbr: "FIZ", m: 26, g: 27 },
-            { name: "CHEMISTRY", abbr: "KIM", m: 28, g: 29 },
-            { name: "BIOLOGY", abbr: "BIO", m: 30, g: 31 },
-            { name: "ADDITIONAL MATHEMATICS", abbr: "ADD MATHS", m: 32, g: 33 },
-            { name: "SAINS KOMPUTER", abbr: "SK", m: 34, g: 35 },
-            { name: "KIMPALAN ARKA & GAS", abbr: "KAG", m: 36, g: 37 },
-            { name: "PENDIDIKAN JASMANI & PENDIDIKAN KESIHATAN", abbr: "PJPK", m: 62, g: 63 }
-        ],
-        jum: 78, purata: 79, gp: 80, keputusan: 81, kdk: 82, analisis: 83, 
-        ulasan: 99, kdt: 100, guru: 101
-    };
-
-    const mapLower = {
-        subjects: [
-            { name: "BAHASA MELAYU", abbr: "BM", m: 4, g: 5 },
-            { name: "ENGLISH LANGUAGE", abbr: "ENG", m: 6, g: 7 },
-            { name: "MATEMATIK", abbr: "MATHS", m: 8, g: 9 },
-            { name: "SEJARAH", abbr: "SEJ", m: 10, g: 11 },
-            { name: "SAINS", abbr: "SN", m: 12, g: 13 },
-            { name: "GEOGRAFI", abbr: "GEO", m: 14, g: 15 },
-            { name: "BAHASA IBAN", abbr: "BIB", m: 16, g: 17 },
-            { name: "PENDIDIKAN MORAL", abbr: "PM", m: 18, g: 19 },
-            { name: "PENDIDIKAN ISLAM", abbr: "PI", m: 20, g: 21 },
-            { name: "REKA BENTUK & TEKNOLOGI", abbr: "RBT", m: 22, g: 23 },
-            { name: "ASAS SAINS KOMPUTER", abbr: "ASK", m: 24, g: 25 },
-            { name: "PENDIDIKAN SENI VISUAL", abbr: "PSV", m: 26, g: 27 },
-            { name: "PENDIDIKAN JASAMANI & PENDIDIKAN KESIHATAN", abbr: "PJPK", m: 40, g: 41 }
-        ],
-        jum: 54, purata: 55, gp: 56, keputusan: 57, kdk: 58, analisis: 59, 
-        ulasan: 60, kdt: 69, guru: 70
-    };
-
-    function login() {
-        const id = document.getElementById("userid").value;
-        const pass = document.getElementById("password").value;
-        if (id === "GT2026" && pass === "SAPSMAY2026") {
-            document.getElementById("login-section").style.display = "none";
-            document.getElementById("loading").style.display = "block";
-            fetchData();
-        } else {
-            document.getElementById("login-error").style.display = "block";
+        // Utility to convert Excel Column string to index
+        function parseCol(colStr) {
+            let hash = 0;
+            for (let i = 0; i < colStr.length; i++) {
+                hash = hash * 26 + (colStr.charCodeAt(i) - 64);
+            }
+            return hash - 1;
         }
-    }
 
-    async function fetchData() {
-        allData = [];
-        for (let i = 0; i < urls.length; i++) {
-            try {
-                const response = await fetch(urls[i]);
-                const csv = await response.text();
-                const parsed = Papa.parse(csv, { skipEmptyLines: true }).data;
-                // Add form identifier based on index
-                const formLvl = (i < 3) ? 'rendah' : 'atas';
-                parsed.forEach(row => {
-                    if (row.length > 5) {
-                        row.push(formLvl); // Append form level at end of row
-                        allData.push(row);
-                        if(row[3] && row[3].trim() !== "" && row[3].trim().toUpperCase() !== "KELAS") {
-                            classesList.add(row[3].trim());
-                        }
-                    }
-                });
-            } catch (err) {
-                console.error("Error fetching", urls[i], err);
+        // Configuration structures for mapping
+        const SCHEME_T123 = [
+            { id: 'BM', name: 'BAHASA MELAYU', m: parseCol('E'), g: parseCol('F') },
+            { id: 'ENG', name: 'ENGLISH LANGUAGE', m: parseCol('G'), g: parseCol('H') },
+            { id: 'MATHS', name: 'MATEMATIK', m: parseCol('I'), g: parseCol('J') },
+            { id: 'SEJ', name: 'SEJARAH', m: parseCol('K'), g: parseCol('L') },
+            { id: 'SN', name: 'SAINS', m: parseCol('M'), g: parseCol('N') },
+            { id: 'GEO', name: 'GEOGRAFI', m: parseCol('O'), g: parseCol('P') },
+            { id: 'BIB', name: 'BAHASA IBAN', m: parseCol('Q'), g: parseCol('R') },
+            { id: 'PM', name: 'PENDIDIKAN MORAL', m: parseCol('S'), g: parseCol('T') },
+            { id: 'PI', name: 'PENDIDIKAN ISLAM', m: parseCol('U'), g: parseCol('V') },
+            { id: 'RBT', name: 'REKA BENTUK & TEKNOLOGI', m: parseCol('W'), g: parseCol('X') },
+            { id: 'ASK', name: 'ASAS SAINS KOMPUTER', m: parseCol('Y'), g: parseCol('Z') },
+            { id: 'PSV', name: 'PENDIDIKAN SENI VISUAL', m: parseCol('AA'), g: parseCol('AB') },
+            { id: 'PJPK', name: 'PENDIDIKAN JASAMANI & PENDIDIKAN KESIHATAN', m: parseCol('AO'), g: parseCol('AP') }
+        ];
+
+        const SCHEME_T45 = [
+            { id: 'BM', name: 'BAHASA MELAYU', m: parseCol('E'), g: parseCol('F') },
+            { id: 'SEJ', name: 'SEJARAH', m: parseCol('G'), g: parseCol('H') },
+            { id: 'ENG', name: 'ENGLISH LANGUAGE', m: parseCol('I'), g: parseCol('J') },
+            { id: 'MATHS', name: 'MATEMATIK/MATHEMATICS', m: parseCol('K'), g: parseCol('L') },
+            { id: 'PM', name: 'PENDIDIKAN MORAL', m: parseCol('M'), g: parseCol('N') },
+            { id: 'PI', name: 'PENDIDIKAN ISLAM', m: parseCol('O'), g: parseCol('P') },
+            { id: 'SN', name: 'SAINS', m: parseCol('Q'), g: parseCol('R') },
+            { id: 'PSV', name: 'PENDIDIKAN SENI VISUAL', m: parseCol('S'), g: parseCol('T') },
+            { id: 'BIB', name: 'BAHASA IBAN', m: parseCol('U'), g: parseCol('V') },
+            { id: 'RC', name: 'REKA CIPTA', m: parseCol('W'), g: parseCol('X') },
+            { id: 'PP', name: 'PENGAJIAN PENIAGAAN', m: parseCol('Y'), g: parseCol('Z') },
+            { id: 'FIZ', name: 'PHYSICS', m: parseCol('AA'), g: parseCol('AB') },
+            { id: 'KIM', name: 'CHEMISTRY', m: parseCol('AC'), g: parseCol('AD') },
+            { id: 'BIO', name: 'BIOLOGY', m: parseCol('AE'), g: parseCol('AF') },
+            { id: 'ADD MATHS', name: 'ADDITIONAL MATHEMATICS', m: parseCol('AG'), g: parseCol('AH') },
+            { id: 'SK', name: 'SAINS KOMPUTER', m: parseCol('AI'), g: parseCol('AJ') },
+            { id: 'KAG', name: 'KIMPALAN ARKA & GAS', m: parseCol('AK'), g: parseCol('AL') },
+            { id: 'PJPK', name: 'PENDIDIKAN JASMANI & PENDIDIKAN KESIHATAN', m: parseCol('BK'), g: parseCol('BL') }
+        ];
+
+        // Overall stats metrics mapping mapping
+        const STATS_MAP = {
+            T123: {
+                total: parseCol('BC'),
+                avg: parseCol('BD'),
+                gp: parseCol('BE'),
+                analisis: parseCol('BH'),
+                keputusan: parseCol('BF'),
+                kdk: parseCol('BG'),
+                kdt: parseCol('BR'),
+                ulasan: parseCol('BI'),
+                guru: parseCol('BS')
+            },
+            T45: {
+                total: parseCol('CA'),
+                avg: parseCol('CB'),
+                gp: parseCol('CC'),
+                analisis: parseCol('CF'),
+                keputusan: parseCol('CD'),
+                kdk: parseCol('CE'),
+                kdt: parseCol('CW'),
+                ulasan: parseCol('CV'),
+                guru: parseCol('CX')
+            }
+        };
+
+        // Class filters based on prompt guidelines
+        function getSubjectsForClass(className) {
+            const cls = className.toUpperCase().replace(/\\s+/g, '');
+            if (cls.includes('4SN') || cls.includes('5SN')) {
+                return ['BM', 'SEJ', 'ENG', 'MATHS', 'PM', 'PI', 'BIB', 'FIZ', 'KIM', 'BIO', 'ADD MATHS', 'SK', 'PJPK'];
+            }
+            if (cls.includes('4ST1')) {
+                return ['BM', 'SEJ', 'ENG', 'MATHS', 'PM', 'PI', 'SN', 'BIB', 'RC', 'PP', 'PJPK'];
+            }
+            if (cls.includes('5ST1')) {
+                return ['BM', 'SEJ', 'ENG', 'MATHS', 'PM', 'PI', 'SN', 'BIB', 'PSV', 'RC', 'PP', 'PJPK'];
+            }
+            if (cls.includes('5ST2')) {
+                return ['BM', 'SEJ', 'ENG', 'MATHS', 'PSV', 'PM', 'PI', 'SN', 'BIB', 'RC', 'PJPK'];
+            }
+            if (cls.includes('5ST3')) {
+                return ['BM', 'SEJ', 'ENG', 'MATHS', 'PM', 'PI', 'SN', 'PSV', 'RC', 'PJPK'];
+            }
+            if (cls.includes('4ST2') || cls.includes('4ST3')) {
+                return ['BM', 'SEJ', 'ENG', 'MATHS', 'PM', 'PI', 'SN', 'PSV', 'BIB', 'RC', 'PJPK'];
+            }
+            if (['4A1', '4A2', '4A3', '4A4', '5A1', '5A3', '5A4'].some(x => cls.includes(x))) {
+                return ['BM', 'SEJ', 'ENG', 'MATHS', 'PM', 'PI', 'SN', 'PSV', 'PJPK'];
+            }
+            if (cls.includes('5A2')) {
+                return ['BM', 'SEJ', 'ENG', 'MATHS', 'PM', 'SN', 'PSV', 'BIB', 'PJPK'];
+            }
+            if (cls.includes('4KAG') || cls.includes('5KAG')) {
+                return ['BM', 'SEJ', 'ENG', 'MATHS', 'PM', 'SN', 'KAG', 'PJPK'];
+            }
+            // Lower Secondary Form 1-3
+            if (cls.includes('1A1') || cls.includes('2A1') || cls.includes('3A1')) {
+                return ['BM', 'ENG', 'MATHS', 'SEJ', 'SN', 'GEO', 'BIB', 'PM', 'PI', 'ASK', 'PSV', 'PJPK'];
+            }
+            if (cls.includes('1A5') || cls.includes('2A5') || cls.includes('3A5')) {
+                return ['BM', 'ENG', 'MATHS', 'SEJ', 'SN', 'GEO', 'BIB', 'PM', 'PI', 'RBT', 'PSV', 'PJPK'];
+            }
+            // General Form 1-3 list
+            return ['BM', 'ENG', 'MATHS', 'SEJ', 'SN', 'GEO', 'BIB', 'PM', 'RBT', 'PSV', 'PJPK'];
+        }
+
+        // State storage
+        let globalRawRows = [];
+        let globalClassRows = [];
+        let totalCohortCount = 0;
+
+        // Login Handler
+        function handleLogin(e) {
+            e.preventDefault();
+            const id = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+
+            if (id === 'GT2026' && pass === 'SAPSMAY2026') {
+                document.getElementById('loginCard').classList.add('hidden');
+                document.getElementById('dashboardContainer').classList.remove('hidden');
+            } else {
+                const err = document.getElementById('loginErrorMessage');
+                err.classList.remove('hidden');
             }
         }
-        
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("dashboard-section").style.display = "block";
-        
-        const sel = document.getElementById("class-select");
-        Array.from(classesList).sort().forEach(cls => {
-            let opt = document.createElement("option");
-            opt.value = cls;
-            opt.text = cls;
-            sel.appendChild(opt);
-        });
-    }
 
-    function loadClassData() {
-        const selectedClass = document.getElementById("class-select").value;
-        const container = document.getElementById("students-container");
-        const overviewContainer = document.getElementById("overview-table-container");
-        container.innerHTML = "";
-        overviewContainer.innerHTML = "";
-        
-        if (!selectedClass) {
-            document.getElementById("overview-card").style.display = "none";
-            document.getElementById("print-controls").style.display = "none";
-            return;
+        // Triggered when Form level changes
+        function onTingkatanChange() {
+            const level = document.getElementById('tingkatanSelect').value;
+            const classSelect = document.getElementById('kelasSelect');
+            
+            // Clear current presentation states
+            resetView();
+
+            if (!level) {
+                classSelect.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+                classSelect.disabled = true;
+                return;
+            }
+
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            
+            // Fetch relevant data via PapaParse
+            Papa.parse(CSV_ENDPOINTS[level], {
+                download: true,
+                header: false,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    document.getElementById('loadingIndicator').classList.add('hidden');
+                    const rows = results.data;
+                    
+                    // Filter down to valid data items (skip headers, check valid column names/index format)
+                    // The standard template starts rows with indices. We filter rows where col D is populated and not 'NULL'
+                    globalRawRows = rows.filter((r, idx) => idx > 0 && r[3] && r[3] !== 'NULL' && r[2]);
+                    totalCohortCount = globalRawRows.length;
+
+                    // Extract uniquely populated classes from Column D
+                    const uniqueClasses = [...new Set(globalRawRows.map(r => r[3].trim()))].sort();
+                    
+                    classSelect.innerHTML = '<option value="">-- Pilih Kelas --</option>';
+                    uniqueClasses.forEach(cls => {
+                        classSelect.innerHTML += `<option value="${cls}">${cls}</option>`;
+                    });
+                    classSelect.disabled = false;
+                },
+                error: function() {
+                    document.getElementById('loadingIndicator').classList.add('hidden');
+                    alert('Gagal memuatkan data dari pelayan. Sila cuba sekali lagi.');
+                }
+            });
         }
 
-        document.getElementById("overview-card").style.display = "block";
-        document.getElementById("print-controls").style.display = "flex";
+        function resetView() {
+            document.getElementById('emptyState').classList.remove('hidden');
+            document.getElementById('classStatsArea').classList.add('hidden');
+            document.getElementById('subjectAnalysisCard').classList.add('hidden');
+            document.getElementById('mainTableCard').classList.add('hidden');
+            document.getElementById('classActions').classList.add('hidden');
+        }
 
-        let classData = allData.filter(row => row[3] && row[3].trim() === selectedClass);
-        if (classData.length === 0) return;
+        // Triggered when specific class is selected
+        function onKelasChange() {
+            const selectedClass = document.getElementById('kelasSelect').value;
+            if (!selectedClass) {
+                resetView();
+                return;
+            }
 
-        let level = classData[0][classData[0].length - 1];
-        let map = level === 'atas' ? mapUpper : mapLower;
-
-        // Build Overview Table
-        let table = "<table><thead><tr><th>Bil</th><th>Nama Pelajar</th>";
-        map.subjects.forEach(sub => {
-            table += `<th>${sub.abbr}</th>`;
-        });
-        table += "<th>JUM</th><th>PURATA</th><th>GP</th><th>KDK</th><th>KDT</th><th>KEPUTUSAN</th></tr></thead><tbody>";
-
-        classData.forEach((row, idx) => {
-            const nama = row[2] || "-";
-            const kdtTotal = level === 'atas' ? "253" : "253"; // Example static, or dynamic if computed
+            // Filter down the active students matching current class selection
+            globalClassRows = globalRawRows.filter(r => r[3].trim() === selectedClass);
             
-            table += `<tr><td>${idx+1}</td><td style="text-align:left;">${nama}</td>`;
-            map.subjects.forEach(sub => {
-                let m = row[sub.m] ? row[sub.m].trim() : "";
-                let g = row[sub.g] ? row[sub.g].trim() : "";
-                if(m.toUpperCase()==='NULL' || m === '') { m = '-'; g = ''; }
-                table += `<td>${m} ${g}</td>`;
-            });
-            table += `<td>${row[map.jum]||'-'}</td><td>${row[map.purata]||'-'}</td><td>${row[map.gp]||'-'}</td>
-                      <td>${row[map.kdk]||'-'}</td><td>${row[map.kdt]||'-'}/${kdtTotal}</td><td>${row[map.keputusan]||'-'}</td></tr>`;
-            
-            // Build Individual Slips
-            let slipHTML = `
-            <div class="student-card">
-                <img src="https://i.ibb.co/9mL8CNMW/header-SLIP-KEPUTUSAN-PEPERIKSAAN.png" class="slip-header-img" alt="Header">
-                <div class="student-header">
-                    <div><strong>NAMA:</strong> ${nama}</div>
-                    <div><strong>KELAS:</strong> ${selectedClass}</div>
-                </div>
-                <div style="padding:20px;">
-                    <table style="margin-top:0;">
-                        <thead><tr><th style="width:60%;">MATA PELAJARAN</th><th>MARKAH</th><th>GRED</th></tr></thead>
-                        <tbody>`;
-            
-            map.subjects.forEach(sub => {
-                let m = row[sub.m] ? row[sub.m].trim() : "";
-                let g = row[sub.g] ? row[sub.g].trim() : "";
-                if (m && m.toUpperCase() !== 'NULL' && m !== '') {
-                    slipHTML += `<tr><td style="text-align:left;">${sub.name}</td><td>${m}</td><td>${g}</td></tr>`;
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('classStatsArea').classList.remove('hidden');
+            document.getElementById('subjectAnalysisCard').classList.remove('hidden');
+            document.getElementById('mainTableCard').classList.remove('hidden');
+            document.getElementById('classActions').classList.remove('hidden');
+
+            renderDashboard();
+        }
+
+        // Process data elements and draw dashboards
+        function renderDashboard() {
+            const level = document.getElementById('tingkatanSelect').value;
+            const selectedClass = document.getElementById('kelasSelect').value;
+            const isHigh = (level === 'T4' || level === 'T5');
+            const scheme = isHigh ? SCHEME_T45 : SCHEME_T123;
+            const metaMap = isHigh ? STATS_MAP.T45 : STATS_MAP.T123;
+            const activeSubjCodes = getSubjectsForClass(selectedClass);
+
+            // Filter down schemes to active subject keys
+            const activeSubjects = scheme.filter(s => activeSubjCodes.includes(s.id));
+
+            // Compute summary benchmarks
+            let totalGP = 0;
+            let validGPCount = 0;
+            let bestGP = 10.0;
+            let bestStudentName = '-';
+            let formTeacher = '-';
+
+            globalClassRows.forEach(r => {
+                const gpVal = parseFloat(r[metaMap.gp]);
+                if (!isNaN(gpVal)) {
+                    totalGP += gpVal;
+                    validGPCount++;
+                    if (gpVal < bestGP) {
+                        bestGP = gpVal;
+                        bestStudentName = r[parseCol('C')]; // Name
+                    }
+                }
+                if (r[metaMap.guru] && r[metaMap.guru] !== 'NULL') {
+                    formTeacher = r[metaMap.guru];
                 }
             });
 
-            slipHTML += `</tbody></table>
-                <div style="margin-top:20px;">
-                    <strong>Jumlah Markah:</strong> ${row[map.jum]||'-'} &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <strong>Purata:</strong> ${row[map.purata]||'-'} &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <strong>Gred Purata (GP):</strong> ${row[map.gp]||'-'}
-                </div>
-                <div style="margin-top:10px;">
-                    <strong>Kedudukan Dalam Kelas:</strong> ${row[map.kdk]||'-'} &nbsp;&nbsp;|&nbsp;&nbsp;
-                    <strong>Kedudukan Dalam Tingkatan:</strong> ${row[map.kdt]||'-'}/${kdtTotal}
-                </div>
-                <div style="margin-top:10px;">
-                    <strong>Keputusan:</strong> ${row[map.keputusan]||'-'} <br>
-                    <strong>Analisis:</strong> ${row[map.analisis]||'-'} <br>
-                    <strong>Ulasan Guru:</strong> ${row[map.ulasan]||'-'}
-                </div>
-                
-                <div class="signatures">
-                    <div class="sig-block">
-                        <div class="sig-line">AWIN ANAK ENGGA<br>PENGETUA<br>SMK SELIRIK</div>
+            const classGPK = validGPCount > 0 ? (totalGP / validGPCount).toFixed(2) : '0.00';
+            
+            // Set stats elements
+            document.getElementById('statTotalStudents').innerText = globalClassRows.length;
+            document.getElementById('statClassGP').innerText = classGPK;
+            document.getElementById('statBestStudent').innerText = bestStudentName;
+            document.getElementById('statFormTeacher').innerText = formTeacher;
+
+            // Render subject metrics table
+            const analysisBody = document.getElementById('subjectAnalysisBody');
+            analysisBody.innerHTML = '';
+
+            activeSubjects.forEach(s => {
+                let takers = 0;
+                let passes = 0;
+                let totalSubjPoints = 0;
+
+                globalClassRows.forEach(r => {
+                    const markStr = r[s.m];
+                    const gradeStr = r[s.g];
+                    if (markStr && markStr !== 'NULL' && markStr.trim() !== '') {
+                        takers++;
+                        // Determine failure code strings (usually 'G' or 'F' depending on cohort system)
+                        if (gradeStr !== 'G' && gradeStr !== 'F' && gradeStr !== 'TH') {
+                            passes++;
+                        }
+                        // Simple numeric weight lookup conversion if needed, but since we are just doing counts we can skip complex scales
+                    }
+                });
+
+                if (takers > 0) {
+                    const passPct = ((passes / takers) * 100).toFixed(1);
+                    const failCount = takers - passes;
+                    const failPct = ((failCount / takers) * 100).toFixed(1);
+                    
+                    analysisBody.innerHTML += `
+                        <tr>
+                            <td class="p-2 font-bold text-left text-gray-700">${s.id} (${s.name})</td>
+                            <td class="p-2 font-medium text-gray-900">${takers}</td>
+                            <td class="p-2 text-emerald-700 font-bold">${passes} <span class="text-xs font-normal text-gray-500">(${passPct}%)</span></td>
+                            <td class="p-2 text-red-600 font-bold">${failCount} <span class="text-xs font-normal text-gray-500">(${failPct}%)</span></td>
+                            <td class="p-2 font-bold text-gray-800">-</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            // Draw Main Data Grid headers
+            const tableHeader = document.getElementById('portalTableHeader');
+            let headerHTML = `
+                <th class="text-center w-12">BIL</th>
+                <th class="text-left min-w-[200px]">NAMA PELAJAR</th>
+            `;
+            activeSubjects.forEach(s => {
+                headerHTML += `<th class="text-center">${s.id}</th>`;
+            });
+            headerHTML += `
+                <th class="text-center">JUM</th>
+                <th class="text-center">PNG / GP</th>
+                <th class="text-center">KDK</th>
+                <th class="text-center">KDT</th>
+                <th class="text-center">KEPUTUSAN</th>
+                <th class="text-center no-print">TINDAKAN</th>
+            `;
+            tableHeader.innerHTML = headerHTML;
+
+            // Draw student row data values
+            const tableBody = document.getElementById('portalTableBody');
+            tableBody.innerHTML = '';
+
+            globalClassRows.forEach((r, index) => {
+                let rowHTML = `
+                    <td class="text-center font-medium">${index + 1}</td>
+                    <td class="text-left font-bold text-gray-900">
+                        <div class="text-xs text-gray-400 font-normal">KP: ${r[parseCol('B')] || '-'}</div>
+                        ${r[parseCol('C')]}
+                    </td>
+                `;
+
+                activeSubjects.forEach(s => {
+                    const m = r[s.m];
+                    const g = r[s.g];
+                    if (m === 'NULL' || !m) {
+                        rowHTML += `<td class="text-center text-gray-300 font-normal">-</td>`;
+                    } else {
+                        rowHTML += `
+                            <td class="text-center">
+                                <span class="block text-sm font-bold text-gray-800">${m}</span>
+                                <span class="block text-[10px] font-extrabold text-blue-700">${g}</span>
+                            </td>
+                        `;
+                    }
+                });
+
+                rowHTML += `
+                    <td class="text-center font-bold text-gray-700">${r[metaMap.total]}</td>
+                    <td class="text-center font-bold text-indigo-900">${r[metaMap.gp]}</td>
+                    <td class="text-center font-semibold text-gray-800">${r[metaMap.kdk]}</td>
+                    <td class="text-center font-semibold text-gray-800">${r[metaMap.kdt]}/${totalCohortCount}</td>
+                    <td class="text-center">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold ${r[metaMap.keputusan] === 'LULUS' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                            ${r[metaMap.keputusan]}
+                        </span>
+                    </td>
+                    <td class="text-center no-print">
+                        <button onclick="printSingleSlip(${index})" class="p-1.5 text-blue-700 hover:text-white hover:bg-blue-700 rounded-lg transition-all" title="Cetak Slip">
+                            <i class="fa-solid fa-print"></i>
+                        </button>
+                    </td>
+                `;
+
+                tableBody.innerHTML += `<tr>${rowHTML}</tr>`;
+            });
+        }
+
+        // Generate clean structural template components for standalone printed records
+        function buildPrintSlipMarkup(r, index, isHigh, metaMap, activeSubjects) {
+            const name = r[parseCol('C')];
+            const ic = r[parseCol('B')] || '-';
+            const className = r[parseCol('D')];
+            const teacherName = r[metaMap.guru] || 'GURU TINGKATAN';
+
+            let subjectRows = '';
+            activeSubjects.forEach(s => {
+                const mark = r[s.m];
+                const grade = r[s.g];
+                if (mark && mark !== 'NULL') {
+                    subjectRows += `
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td style="padding: 8px; text-align: left; font-size: 12px; font-weight: bold; color: #333;">${s.name}</td>
+                            <td style="padding: 8px; font-size: 12px; font-weight: bold; color: #111;">${mark}</td>
+                            <td style="padding: 8px; font-size: 13px; font-weight: 900; color: #151B54;">${grade}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            return `
+                <div class="page-break" style="width: 100%; max-width: 210mm; margin: 0 auto; padding: 10mm; box-sizing: border-box; background: #fff; font-family: sans-serif; position: relative;">
+                    <div style="width: 100%; text-align: center; margin-bottom: 15px;">
+                        <img src="https://i.ibb.co/9mL8CNMW/header-SLIP-KEPUTUSAN-PEPERIKSAAN.png" style="width: 100%; height: auto; display: block; border-radius: 4px;" alt="Header Peperiksaan">
                     </div>
-                    <div class="sig-block">
-                        <div class="sig-line">${row[map.guru]||'GURU TINGKATAN'}<br>GURU TINGKATAN ${selectedClass}<br>SMK SELIRIK</div>
+
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 11px; border-bottom: 2px solid #151B54; padding-bottom: 8px;">
+                        <tr>
+                            <td style="padding: 3px 0; text-align: left; width: 60%;"><strong>NAMA PELAJAR:</strong> ${name}</td>
+                            <td style="padding: 3px 0; text-align: right; width: 40%;"><strong>PEPERIKSAAN:</strong> PEPERIKSAN PENGGAL 1 (MEI) 2026</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 3px 0; text-align: left;"><strong>NO. KAD PENGENALAN:</strong> ${ic}</td>
+                            <td style="padding: 3px 0; text-align: right;"><strong>KELAS:</strong> ${className}</td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 15px;">
+                        <thead>
+                            <tr style="background-color: #151B54; color: white;">
+                                <th style="padding: 8px; text-align: left; font-size: 11px;">MATA PELAJARAN</th>
+                                <th style="padding: 8px; font-size: 11px; width: 100px;">MARKAH</th>
+                                <th style="padding: 8px; font-size: 11px; width: 100px;">GRED</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${subjectRows}
+                        </tbody>
+                    </table>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+                        <div style="border: 1px solid #ccc; padding: 8px; border-radius: 6px; background-color: #fafafa; font-size: 11px;">
+                            <div style="margin-bottom: 4px;">JUMLAH MARKAH: <strong style="float: right; color: #111;">${r[metaMap.total]}</strong></div>
+                            <div style="margin-bottom: 4px;">PURATA MARKAH: <strong style="float: right; color: #111;">${r[metaMap.avg]}</strong></div>
+                            <div>GRED PURATA (GP): <strong style="float: right; color: #151B54;">${r[metaMap.gp]}</strong></div>
+                        </div>
+                        <div style="border: 1px solid #ccc; padding: 8px; border-radius: 6px; background-color: #fafafa; font-size: 11px;">
+                            <div style="margin-bottom: 4px;">KEPUTUSAN: <strong style="float: right; color: #111;">${r[metaMap.keputusan]}</strong></div>
+                            <div style="margin-bottom: 4px;">KEDUDUKAN KELAS: <strong style="float: right; color: #111;">${r[metaMap.kdk]}</strong></div>
+                            <div>KEDUDUKAN TINGKATAN: <strong style="float: right; color: #111;">${r[metaMap.kdt]}/${totalCohortCount}</strong></div>
+                        </div>
+                    </div>
+
+                    <div style="border: 1px solid #ccc; padding: 8px; border-radius: 6px; margin-bottom: 40px; font-size: 11px; min-height: 50px;">
+                        <strong>ULASAN GURU KELAS:</strong>
+                        <p style="margin: 4px 0 0 0; color: #444; font-style: italic;">"${r[metaMap.ulasan] && r[metaMap.ulasan] !== 'NULL' ? r[metaMap.ulasan] : 'Teruskan usaha anda dengan lebih gigih demi kecemerlangan masa hadapan.'}"</p>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; font-size: 11px; margin-top: 20px;">
+                        <div style="width: 45%; text-align: left;">
+                            <p style="margin-bottom: 45px;">Pengesahan Pengetua:</p>
+                            <strong>AWIN ANAK ENGGA</strong><br>
+                            <span>PENGETUA</span><br>
+                            <span>SMK SELIRIK</span>
+                        </div>
+                        <div style="width: 45%; text-align: right;">
+                            <p style="margin-bottom: 45px;">Tandatangan Guru Tingkatan:</p>
+                            <strong>${teacherName}</strong><br>
+                            <span>GURU TINGKATAN ${className}</span><br>
+                            <span>SMK SELIRIK</span>
+                        </div>
                     </div>
                 </div>
-            </div></div>`;
-            container.innerHTML += slipHTML;
-        });
+            `;
+        }
 
-        table += "</tbody></table>";
-        overviewContainer.innerHTML = table;
-    }
+        // Print individual student slip
+        function printSingleSlip(index) {
+            const level = document.getElementById('tingkatanSelect').value;
+            const selectedClass = document.getElementById('kelasSelect').value;
+            const isHigh = (level === 'T4' || level === 'T5');
+            const scheme = isHigh ? SCHEME_T45 : SCHEME_T123;
+            const metaMap = isHigh ? STATS_MAP.T45 : STATS_MAP.T123;
+            const activeSubjCodes = getSubjectsForClass(selectedClass);
+            const activeSubjects = scheme.filter(s => activeSubjCodes.includes(s.id));
 
-    function printOverview() {
-        document.body.className = "print-overview";
-        window.print();
-        document.body.className = "";
-    }
+            const targetStudentRow = globalClassRows[index];
+            const printContainer = document.getElementById('printContainer');
+            
+            printContainer.innerHTML = buildPrintSlipMarkup(targetStudentRow, index, isHigh, metaMap, activeSubjects);
+            window.print();
+        }
 
-    function printSlips() {
-        document.body.className = "print-individual";
-        window.print();
-        document.body.className = "";
-    }
-</script>
+        // Print all slips bulk mode consecutive pages
+        function printBulkSlips() {
+            const level = document.getElementById('tingkatanSelect').value;
+            const selectedClass = document.getElementById('kelasSelect').value;
+            const isHigh = (level === 'T4' || level === 'T5');
+            const scheme = isHigh ? SCHEME_T45 : SCHEME_T123;
+            const metaMap = isHigh ? STATS_MAP.T45 : STATS_MAP.T123;
+            const activeSubjCodes = getSubjectsForClass(selectedClass);
+            const activeSubjects = scheme.filter(s => activeSubjCodes.includes(s.id));
+
+            const printContainer = document.getElementById('printContainer');
+            printContainer.innerHTML = '';
+
+            globalClassRows.forEach((row, idx) => {
+                printContainer.innerHTML += buildPrintSlipMarkup(row, idx, isHigh, metaMap, activeSubjects);
+            });
+
+            window.print();
+        }
+
+        // Print whole classroom table overview layout
+        function printClassRecord() {
+            const level = document.getElementById('tingkatanSelect').value;
+            const selectedClass = document.getElementById('kelasSelect').value;
+            const isHigh = (level === 'T4' || level === 'T5');
+            const scheme = isHigh ? SCHEME_T45 : SCHEME_T123;
+            const metaMap = isHigh ? STATS_MAP.T45 : STATS_MAP.T123;
+            const activeSubjCodes = getSubjectsForClass(selectedClass);
+            const activeSubjects = scheme.filter(s => activeSubjCodes.includes(s.id));
+
+            const printContainer = document.getElementById('printContainer');
+            
+            let headerCells = '<th>BIL</th><th style="text-align: left;">NAMA PELAJAR</th>';
+            activeSubjects.forEach(s => { headerCells += `<th>${s.id}</th>`; });
+            headerCells += '<th>JUM</th><th>GP</th><th>KDK</th><th>KDT</th><th>KEPUTUSAN</th>';
+
+            let bodyRows = '';
+            globalClassRows.forEach((r, idx) => {
+                let rowCells = `<td>${idx+1}</td><td style="text-align: left; font-weight: bold;">${r[parseCol('C')]}</td>`;
+                activeSubjects.forEach(s => {
+                    const mark = r[s.m];
+                    const grade = r[s.g];
+                    if(mark === 'NULL' || !mark) {
+                        rowCells += '<td>-</td>';
+                    } else {
+                        rowCells += `<td><strong>${mark}</strong><br><span style="font-size:9px;color:#151B54;">${grade}</span></td>`;
+                    }
+                });
+                rowCells += `
+                    <td><strong>${r[metaMap.total]}</strong></td>
+                    <td><strong>${r[metaMap.gp]}</strong></td>
+                    <td>${r[metaMap.kdk]}</td>
+                    <td>${r[metaMap.kdt]}/${totalCohortCount}</td>
+                    <td><span style="font-size:10px; font-weight:bold;">${r[metaMap.keputusan]}</span></td>
+                `;
+                bodyRows += `<tr>${rowCells}</tr>`;
+            });
+
+            printContainer.innerHTML = `
+                <div class="landscape-section" style="width: 100%; font-family: sans-serif; background: #fff; padding: 5mm;">
+                    <div style="text-align: center; margin-bottom: 15px; border-bottom: 3px double #151B54; padding-bottom: 10px;">
+                        <h2 style="margin: 0; color: #151B54; text-transform: uppercase; font-size: 16px;">SMK SELIRIK, KAPIT</h2>
+                        <h3 style="margin: 4px 0 0 0; font-size: 13px; color: #333; uppercase">REKOD KEPUTUSAN KESELURUHAN KELAS - ${selectedClass}</h3>
+                        <p style="margin: 2px 0 0 0; font-size: 11px; color: #666;">PEPERIKSAAN PENGGAL 1 (MEI) 2026</p>
+                    </div>
+                    <table class="custom-table" style="width: 100%; font-size: 10px; border: 1px solid #ccc; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #151B54; color: white;">${headerCells}</tr>
+                        </thead>
+                        <tbody style="background: white;">${bodyRows}</tbody>
+                    </table>
+                </div>
+            `;
+            window.print();
+        }
+    </script>
 </body>
 </html>
