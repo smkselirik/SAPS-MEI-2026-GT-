@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Peperiksaan Penggal 1 (MEI) 2026 - SMK Selirik</title>
+    <!-- Tailwind CSS untuk susun atur yang mobile friendly & professional -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PapaParse untuk membaca format CSV dari pautan Google Sheets -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <!-- Chart.js untuk Graf Analisis -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            /* Latar belakang biru lembut bercirikan gradient */
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .header-bg {
+            /* Latar belakang Night Blue dengan corak abstrak korporat */
+            background-color: #151B54;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.04) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 25%),
+                linear-gradient(45deg, rgba(255,255,255,0.01) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0.01) 75%, transparent 75%, transparent);
+            background-size: 100% 100%, 100% 100%, 60px 60px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+        }
+        /* CSS khusus untuk percetakan */
+        @media print {
+            body { background: white !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .page-break { page-break-after: always; }
+            .print-container { width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            @page { margin: 10mm; }
+            @page :landscape { size: landscape; }
+            .landscape-print { transform: rotate(0); width: 100%; }
+        }
+        .print-only { display: none; }
+        
+        .slip-box {
+            border: 2px solid #151B54;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #fff;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- HEADER -->
+    <header class="header-bg text-white py-6 shadow-lg no-print">
+        <div class="container mx-auto px-4 text-center">
+            <img src="https://i.ibb.co/VYSKMXf1/Logo-Selirik.png" alt="Logo SMK Selirik" class="h-24 mx-auto mb-3 drop-shadow-md">
+            <h1 class="text-3xl md:text-4xl font-bold tracking-wider">SMK SELIRIK, KAPIT</h1>
+            <h2 class="text-xl md:text-2xl mt-2 font-light text-blue-200">PORTAL PEPERIKSAAN PENGGAL 1 (MEI) 2026</h2>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-7xl">
+        
+        <!-- BAHAGIAN LOG MASUK -->
+        <div id="loginSection" class="glass-card max-w-md mx-auto p-8 mt-10">
+            <h3 class="text-2xl font-bold text-center mb-6 text-[#151B54]">Log Masuk Guru Kelas</h3>
+            <div class="mb-4">
+                <label class="block text-sm font-semibold mb-2">ID Pengguna</label>
+                <input type="text" id="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-[#151B54]" placeholder="Masukkan ID">
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-semibold mb-2">Kata Laluan</label>
+                <input type="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-[#151B54]" placeholder="Masukkan Kata Laluan">
+            </div>
+            <button onclick="login()" class="w-full bg-[#151B54] text-white font-bold py-3 rounded-lg hover:bg-blue-900 transition">Log Masuk</button>
+            <p id="loginError" class="text-red-500 text-sm mt-3 text-center hidden">ID atau Kata Laluan salah!</p>
+        </div>
+
+        <!-- DASHBOARD GURU KELAS -->
+        <div id="dashboardSection" class="hidden no-print">
+            
+            <!-- Loading Indicator -->
+            <div id="loading" class="text-center py-10 hidden">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#151B54] mx-auto"></div>
+                <p class="mt-4 font-semibold text-[#151B54]">Sedang memuat turun data peperiksaan...</p>
+            </div>
+
+            <!-- Kawalan Dashboard -->
+            <div id="controls" class="glass-card p-6 mb-8 hidden">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="w-full md:w-1/3">
+                        <label class="block text-sm font-bold mb-2 text-[#151B54]">Pilih Kelas:</label>
+                        <select id="classSelect" onchange="loadClassData()" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-[#151B54]">
+                            <option value="">-- Sila Pilih Kelas --</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <button onclick="printClassLandscape()" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 flex-1 md:flex-none">Cetak Keseluruhan Kelas</button>
+                        <button onclick="printBulkSlips()" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 flex-1 md:flex-none">Cetak Pukal Slip</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analisis Carta -->
+            <div id="analysisSection" class="glass-card p-6 mb-8 hidden">
+                <h3 class="text-xl font-bold mb-4 text-[#151B54] border-b pb-2">Analisis Pencapaian Kelas</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div><canvas id="chartGred"></canvas></div>
+                    <div><canvas id="chartLulusGagal"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Jadual Kelas -->
+            <div id="tableSection" class="glass-card p-6 hidden overflow-x-auto">
+                <h3 class="text-xl font-bold mb-4 text-[#151B54] border-b pb-2">Rekod Markah Pelajar</h3>
+                <table class="w-full text-sm text-left border-collapse" id="classTable">
+                    <thead class="bg-[#151B54] text-white" id="classTableHead"></thead>
+                    <tbody id="classTableBody" class="divide-y divide-gray-200"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- KAWASAN CETAKAN (Sembunyi dari skrin biasa) -->
+        <div id="printArea" class="print-only"></div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-6 text-sm text-gray-600 font-semibold no-print">
+        <p>Hakcipta NDJE@Selirik, Kapit 2026</p>
+    </footer>
+
+    <script>
+        // Kofigurasi URL
+        const urls = [
+            { id: 'T1', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_cVUYiV59wBBM78IF0OeqL90DIeQXksU-sqQRnMF0Ou6_AFUSmyrf4mIvtZw5M2ROix6tooZwBp2m/pub?gid=1419213935&single=true&output=csv', type: 'Rendah' },
+            { id: 'T2', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT52bai_YQO69Xj44RZ774cYQxkcAVSI32loOIrmSxl94gWaQA3zmuhjM24cvGQP4tin618SFxlhGmG/pub?gid=1419213935&single=true&output=csv', type: 'Rendah' },
+            { id: 'T3', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQLkEtjpu5SZcccaXkOlDMHHIsfPhIVNh4zlZmJgyRe93ND0Qk07YpzmE8GHuNzALyX7J1Rj2ye1NO5/pub?gid=1419213935&single=true&output=csv', type: 'Rendah' },
+            { id: 'T4', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNF2kkoq_gq_9UFRWFWLosn8lQtbDf6bcP_zeSyEYwB_sQLSFGVZUdPRSq-ff6Nbx6Fgo3KbqM1MNW/pub?gid=1615224868&single=true&output=csv', type: 'Atas' },
+            { id: 'T5', url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQhqsBRMjA8LPYWT1V301p2vYO-8tVEbv1RSkSOyixoS-48cQpfUZTozkHqJgBSjUfBUIE7SgUMc2-K/pub?gid=1615224868&single=true&output=csv', type: 'Atas' }
+        ];
+
+        let allData = [];
+        let currentClassData = [];
+        let chart1, chart2;
+
+        // Log Masuk
+        function login() {
+            const id = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            if (id === 'GT2026' && pass === 'SAPSMAY2026') {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboardSection').classList.remove('hidden');
+                fetchData();
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
+        }
+
+        // Ambil dan Proses Data
+        async function fetchData() {
+            document.getElementById('loading').classList.remove('hidden');
+            allData = [];
+            
+            for (let source of urls) {
+                try {
+                    const response = await new Promise((resolve) => {
+                        Papa.parse(source.url, {
+                            download: true,
+                            header: false, // guna indeks sebab struktur borang
+                            complete: function(results) {
+                                // Mula dari baris data sebenar (biasanya baris ke-2 atau 3, anggap baris 3 ke atas adalah pelajar)
+                                let rows = results.data.filter(r => r[2] && r[2].trim() !== '' && r[2].toUpperCase() !== 'NAMA');
+                                rows = rows.map(r => ({...r, peringkat: source.type, tingkatan: source.id}));
+                                resolve(rows);
+                            }
+                        });
+                    });
+                    allData = allData.concat(response);
+                } catch (e) {
+                    console.error("Ralat memuat turun " + source.id, e);
+                }
+            }
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('controls').classList.remove('hidden');
+            populateClassDropdown();
+        }
+
+        function populateClassDropdown() {
+            const classes = [...new Set(allData.map(item => item[3]).filter(c => c))].sort();
+            const select = document.getElementById('classSelect');
+            classes.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c; opt.innerHTML = c; select.appendChild(opt);
+            });
+        }
+
+        // Peta Subjek mengikut Peringkat Menengah Atas (T4, T5)
+        const subjekAtasMap = [
+            { nama: 'BAHASA MELAYU', kod: 'BM', m: 4, g: 5 },
+            { nama: 'SEJARAH', kod: 'SEJ', m: 6, g: 7 },
+            { nama: 'ENGLISH LANGUAGE', kod: 'ENG', m: 8, g: 9 },
+            { nama: 'MATEMATIK', kod: 'MATHS', m: 10, g: 11 },
+            { nama: 'PENDIDIKAN MORAL', kod: 'PM', m: 12, g: 13 },
+            { nama: 'PENDIDIKAN ISLAM', kod: 'PI', m: 14, g: 15 },
+            { nama: 'SAINS', kod: 'SN', m: 16, g: 17 },
+            { nama: 'PENDIDIKAN SENI VISUAL', kod: 'PSV', m: 18, g: 19 },
+            { nama: 'BAHASA IBAN', kod: 'BIB', m: 20, g: 21 },
+            { nama: 'REKA CIPTA', kod: 'RC', m: 22, g: 23 },
+            { nama: 'PENGAJIAN PENIAGAAN', kod: 'PP', m: 24, g: 25 },
+            { nama: 'PHYSICS', kod: 'FIZ', m: 26, g: 27 },
+            { nama: 'CHEMISTRY', kod: 'KIM', m: 28, g: 29 },
+            { nama: 'BIOLOGY', kod: 'BIO', m: 30, g: 31 },
+            { nama: 'ADDITIONAL MATHEMATICS', kod: 'ADD MATHS', m: 32, g: 33 },
+            { nama: 'SAINS KOMPUTER', kod: 'SK', m: 34, g: 35 },
+            { nama: 'KIMPALAN ARKA & GAS', kod: 'KAG', m: 36, g: 37 },
+            { nama: 'PENDIDIKAN JASMANI & PENDIDIKAN KESIHATAN', kod: 'PJPK', m: 62, g: 63 }
+        ];
+
+        // Peta Subjek Menengah Rendah (T1, T2, T3)
+        const subjekRendahMap = [
+            { nama: 'BAHASA MELAYU', kod: 'BM', m: 4, g: 5 },
+            { nama: 'ENGLISH LANGUAGE', kod: 'ENG', m: 6, g: 7 },
+            { nama: 'MATEMATIK', kod: 'MATHS', m: 8, g: 9 },
+            { nama: 'SEJARAH', kod: 'SEJ', m: 10, g: 11 },
+            { nama: 'SAINS', kod: 'SN', m: 12, g: 13 },
+            { nama: 'GEOGRAFI', kod: 'GEO', m: 14, g: 15 },
+            { nama: 'BAHASA IBAN', kod: 'BIB', m: 16, g: 17 },
+            { nama: 'PENDIDIKAN MORAL', kod: 'PM', m: 18, g: 19 },
+            { nama: 'PENDIDIKAN ISLAM', kod: 'PI', m: 20, g: 21 },
+            { nama: 'REKA BENTUK & TEKNOLOGI', kod: 'RBT', m: 22, g: 23 },
+            { nama: 'ASAS SAINS KOMPUTER', kod: 'ASK', m: 24, g: 25 },
+            { nama: 'PENDIDIKAN SENI VISUAL', kod: 'PSV', m: 26, g: 27 },
+            { nama: 'PENDIDIKAN JASMANI & PENDIDIKAN KESIHATAN', kod: 'PJPK', m: 40, g: 41 }
+        ];
+
+        // Indeks Keputusan
+        const indeksAtas = { jum: 78, purata: 79, gp: 80, kep: 81, kdk: 82, ana: 83, ulasan: 99, kdt: 100, guru: 101 };
+        const indeksRendah = { jum: 54, purata: 55, gp: 56, kep: 57, kdk: 58, ana: 59, ulasan: 60, kdt: 69, guru: 70 };
+
+        function loadClassData() {
+            const className = document.getElementById('classSelect').value;
+            if (!className) return;
+
+            currentClassData = allData.filter(d => d[3] === className);
+            if (currentClassData.length === 0) return;
+
+            document.getElementById('analysisSection').classList.remove('hidden');
+            document.getElementById('tableSection').classList.remove('hidden');
+
+            renderTable(className);
+            renderCharts();
+        }
+
+        function filterActiveSubjects(dataArr, mapSubjek) {
+            // Tapis subjek yang sekurang-kurangnya ada satu markah yang bukan NULL/Kosong dalam kelas
+            return mapSubjek.filter(sub => {
+                return dataArr.some(pelajar => pelajar[sub.m] && pelajar[sub.m].trim() !== '' && pelajar[sub.m].toUpperCase() !== 'NULL');
+            });
+        }
+
+        function renderTable(className) {
+            const isAtas = currentClassData[0].peringkat === 'Atas';
+            const subMapRaw = isAtas ? subjekAtasMap : subjekRendahMap;
+            const idx = isAtas ? indeksAtas : indeksRendah;
+            
+            const activeSubjects = filterActiveSubjects(currentClassData, subMapRaw);
+
+            const thead = document.getElementById('classTableHead');
+            const tbody = document.getElementById('classTableBody');
+            
+            // Bina Header Jadual
+            let headerHTML = `<tr><th class="p-3 border">Bil</th><th class="p-3 border">Nama Pelajar</th>`;
+            activeSubjects.forEach(s => {
+                headerHTML += `<th class="p-3 border text-center">${s.kod}</th>`;
+            });
+            headerHTML += `<th class="p-3 border text-center">JUM</th><th class="p-3 border text-center">PURATA</th><th class="p-3 border text-center">GP</th><th class="p-3 border text-center">KEP</th><th class="p-3 border text-center">KDK</th><th class="p-3 border text-center">KDT</th><th class="p-3 border text-center">Tindakan</th></tr>`;
+            thead.innerHTML = headerHTML;
+
+            // Bina Body Jadual
+            let bodyHTML = '';
+            currentClassData.forEach((pelajar, i) => {
+                bodyHTML += `<tr class="hover:bg-blue-50"><td class="p-3 border text-center">${i+1}</td><td class="p-3 border font-semibold">${pelajar[2]}</td>`;
+                
+                activeSubjects.forEach(s => {
+                    let markah = pelajar[s.m];
+                    let gred = pelajar[s.g];
+                    let papar = (markah && markah.trim() !== '' && markah.toUpperCase() !== 'NULL') ? `${markah} [${gred}]` : '-';
+                    bodyHTML += `<td class="p-3 border text-center">${papar}</td>`;
+                });
+
+                bodyHTML += `
+                    <td class="p-3 border text-center font-bold">${pelajar[idx.jum] || '-'}</td>
+                    <td class="p-3 border text-center">${pelajar[idx.purata] || '-'}</td>
+                    <td class="p-3 border text-center">${pelajar[idx.gp] || '-'}</td>
+                    <td class="p-3 border text-center text-xs">${pelajar[idx.kep] || '-'}</td>
+                    <td class="p-3 border text-center">${pelajar[idx.kdk] || '-'}</td>
+                    <td class="p-3 border text-center">${pelajar[idx.kdt] || '-'}</td>
+                    <td class="p-3 border text-center"><button onclick="printIndividual('${pelajar[2]}')" class="bg-[#151B54] text-white px-3 py-1 rounded text-xs hover:bg-blue-800">Cetak Slip</button></td>
+                </tr>`;
+            });
+            tbody.innerHTML = bodyHTML;
+        }
+
+        function renderCharts() {
+            const isAtas = currentClassData[0].peringkat === 'Atas';
+            const idx = isAtas ? indeksAtas : indeksRendah;
+
+            let lulus = 0, gagal = 0;
+            currentClassData.forEach(p => {
+                let kep = (p[idx.kep] || '').toUpperCase();
+                if (kep.includes('LULUS') || kep.includes('MENGUASAI') || kep.includes('CEMERLANG')) lulus++;
+                else if (kep.includes('GAGAL') || kep.includes('TIDAK')) gagal++;
+            });
+
+            if(chart1) chart1.destroy();
+            if(chart2) chart2.destroy();
+
+            const ctx1 = document.getElementById('chartGred').getContext('2d');
+            chart1 = new Chart(ctx1, {
+                type: 'pie',
+                data: {
+                    labels: ['Lulus / Menguasai', 'Gagal / Tidak Menguasai'],
+                    datasets: [{
+                        data: [lulus, gagal],
+                        backgroundColor: ['#10B981', '#EF4444']
+                    }]
+                },
+                options: { plugins: { title: { display: true, text: 'Status Keputusan Kelas' } } }
+            });
+
+            // Analisis GP
+            const gredPurata = currentClassData.map(p => parseFloat(p[idx.gp]) || 0).filter(g => g > 0);
+            let avgGP = gredPurata.length ? (gredPurata.reduce((a,b)=>a+b,0) / gredPurata.length).toFixed(2) : 0;
+            
+            const ctx2 = document.getElementById('chartLulusGagal').getContext('2d');
+            chart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Gred Purata Kelas (GPK)'],
+                    datasets: [{
+                        label: 'Nilai GPK',
+                        data: [avgGP],
+                        backgroundColor: '#151B54'
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true, max: 9 } }, plugins: { title: { display: true, text: 'Gred Purata Kelas' } } }
+            });
+        }
+
+        // FUNGSI CETAKAN
+        function generateSlipHTML(pelajar) {
+            const isAtas = pelajar.peringkat === 'Atas';
+            const subMapRaw = isAtas ? subjekAtasMap : subjekRendahMap;
+            const idx = isAtas ? indeksAtas : indeksRendah;
+            
+            // Penapisan berdasarkan subjek yang pelajar ambil (bukan NULL)
+            const subjectRows = subMapRaw.filter(s => pelajar[s.m] && pelajar[s.m].trim() !== '' && pelajar[s.m].toUpperCase() !== 'NULL').map(s => `
+                <tr>
+                    <td style="padding:5px; border:1px solid #ccc;">${s.nama}</td>
+                    <td style="padding:5px; border:1px solid #ccc; text-align:center;">${pelajar[s.m]}</td>
+                    <td style="padding:5px; border:1px solid #ccc; text-align:center; font-weight:bold;">${pelajar[s.g]}</td>
+                </tr>
+            `).join('');
+
+            return `
+            <div class="slip-box page-break rounded-[15px]">
+                <img src="https://i.ibb.co/9mL8CNMW/header-SLIP-KEPUTUSAN-PEPERIKSAAN.png" style="width:100%; border-radius:10px 10px 0 0; margin-bottom:15px;" alt="Header Slip">
+                
+                <table style="width:100%; margin-bottom:15px; font-size:14px; font-weight:bold; color:#151B54;">
+                    <tr>
+                        <td width="15%">NAMA</td><td width="2%">:</td><td>${pelajar[2]}</td>
+                    </tr>
+                    <tr>
+                        <td>KELAS</td><td>:</td><td>${pelajar[3]}</td>
+                    </tr>
+                </table>
+
+                <table style="width:100%; border-collapse:collapse; margin-bottom:15px; font-size:14px;">
+                    <tr style="background-color:#151B54; color:white;">
+                        <th style="padding:8px; border:1px solid #151B54; text-align:left;">Mata Pelajaran</th>
+                        <th style="padding:8px; border:1px solid #151B54; text-align:center; width:20%;">Markah</th>
+                        <th style="padding:8px; border:1px solid #151B54; text-align:center; width:20%;">Gred</th>
+                    </tr>
+                    ${subjectRows}
+                </table>
+
+                <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:20px; background:#f8fafc; padding:10px; border:1px solid #e2e8f0;">
+                    <div>
+                        <p><strong>Jumlah Markah:</strong> ${pelajar[idx.jum] || '-'}</p>
+                        <p><strong>Purata Markah:</strong> ${pelajar[idx.purata] || '-'}</p>
+                        <p><strong>Gred Purata:</strong> ${pelajar[idx.gp] || '-'}</p>
+                    </div>
+                    <div>
+                        <p><strong>Kedudukan Dlm Kelas:</strong> ${pelajar[idx.kdk] || '-'}</p>
+                        <p><strong>Kedudukan Dlm Tingkatan:</strong> ${pelajar[idx.kdt] || '-'}</p>
+                        <p><strong>Keputusan:</strong> ${pelajar[idx.kep] || '-'}</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:20px; font-size:13px;">
+                    <p><strong>Analisis:</strong> ${pelajar[idx.ana] || '-'}</p>
+                    <p><strong>Ulasan Guru Kelas:</strong> ${pelajar[idx.ulasan] || '-'}</p>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; margin-top:40px; font-size:13px; font-weight:bold; text-align:center;">
+                    <div style="width:40%;">
+                        <p>__________________________</p>
+                        <p>AWIN ANAK ENGGA</p>
+                        <p>PENGETUA</p>
+                        <p>SMK SELIRIK</p>
+                    </div>
+                    <div style="width:40%;">
+                        <p>__________________________</p>
+                        <p>${(pelajar[idx.guru] || 'GURU KELAS').toUpperCase()}</p>
+                        <p>GURU TINGKATAN ${pelajar[3]}</p>
+                        <p>SMK SELIRIK</p>
+                    </div>
+                </div>
+                
+                <p style="text-align:center; font-style:italic; font-size:11px; margin-top:20px; color:#666;">Slip ini adalah cetakan komputer. Tandatangan tidak diperlukan.</p>
+            </div>`;
+        }
+
+        function printClassLandscape() {
+            const tableHTML = document.getElementById('tableSection').innerHTML;
+            const className = document.getElementById('classSelect').value;
+            const printArea = document.getElementById('printArea');
+            
+            printArea.innerHTML = `
+                <style>@page { size: landscape; }</style>
+                <div class="landscape-print">
+                    <h2 style="text-align:center; color:#151B54; margin-bottom:20px; font-size:24px; font-weight:bold;">REKOD KEPUTUSAN KESELURUHAN KELAS ${className}</h2>
+                    ${tableHTML}
+                </div>
+            `;
+            window.print();
+        }
+
+        function printIndividual(namaPelajar) {
+            const pelajar = currentClassData.find(p => p[2] === namaPelajar);
+            if(!pelajar) return;
+            
+            document.getElementById('printArea').innerHTML = `
+                <style>@page { size: portrait; }</style>
+                ${generateSlipHTML(pelajar)}
+            `;
+            window.print();
+        }
+
+        function printBulkSlips() {
+            let html = '<style>@page { size: portrait; }</style>';
+            currentClassData.forEach(pelajar => {
+                html += generateSlipHTML(pelajar);
+            });
+            document.getElementById('printArea').innerHTML = html;
+            window.print();
+        }
+    </script>
+</body>
+</html>
